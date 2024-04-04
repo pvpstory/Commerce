@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>New Listing</h2>
+    <form action="{% url 'new_listing' %}" method = "post">
+        {% csrf_token %}
+        <label for="title">Title:</label><br>
+        <input type="text" id = "title" name="title"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="2" cols="30"></textarea><br>
+        <label for="starting_bit">Starting bit:</label><br>
+        <input type="number" id="starting_bit" name="starting_bit"> <br>
+
+        <input type="submit" value="send"><br>
+
+
+
+
+    </form>
+{% endblock %}
