@@ -2,6 +2,8 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
+    {% for listing in listings %}
+        <li>Title: <a href="/listing/{{ listing.id }}">{{ listing.title }}</a> Description: {{ listing.description }} Starting bid {{ listing.starting_bit }}</li>
+    {% endfor %}
     TODO
 {% endblock %}

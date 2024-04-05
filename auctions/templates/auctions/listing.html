@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "auctions/layout.html" %}
 
-</body>
-</html>
+{% block body %}
+    <h2>{{ listing.title }}</h2>
+    Description: {{ listing.description }}
+    Starting bid: {{ listing.starting_bit }}
+    <!-- curent price: -->
+    {% if user.is_authenticated %}
+    <button type="button">Add to my Watchlist</button>
+    <form>
+        <label for="new_bid">Make a bid:</label> <br>
+        <input type="number" id="new_bid" name="new_bid"> <br>
+    </form>
+
+
+
+{% endblock %}

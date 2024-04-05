@@ -8,7 +8,9 @@ from .models import User
 from auctions.models import listings
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "listings": listings.objects.all()
+    })
 
 
 def login_view(request):
@@ -66,11 +68,13 @@ def new_listing(request):
         title = request.POST["title"]
         description = request.POST["description"]
         starting_bit = request.POST.get('starting_bit')
+        creator = User.username
 
         new_listing1 = listings.objects.create(
             title=title,
             description=description,
-            starting_bit=starting_bit
+            starting_bit=starting_bit,
+            creator=creator
         )
 
         new_listing1.save()
@@ -78,3 +82,7 @@ def new_listing(request):
 
     else:
         return render(request, "auctions/new_listing.html")
+def listing(request, listing_id):
+    return render(request, "auctions/listing.html",{
+        "listing": listings.objects.get(id=listing_id)
+    })
