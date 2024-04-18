@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
-from auctions.models import listings
+from auctions.models import listings, watchlist
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -83,6 +83,25 @@ def new_listing(request):
     else:
         return render(request, "auctions/new_listing.html")
 def listing(request, listing_id):
+
     return render(request, "auctions/listing.html",{
         "listing": listings.objects.get(id=listing_id)
     })
+
+def watchlist_view(request):
+    if request.method == "POST":
+        listing_id = request.POST["listing_id"]
+
+        new_watchlist = watchlist.objects.create(
+            user = request.user,
+            listing = listings.objects.get(id=listing_id)
+        )
+        return HttpResponseRedirect(reverse("index"))
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist.objects.filter(user=request.user)
+    })
+
+
+
+
+

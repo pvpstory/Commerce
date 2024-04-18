@@ -6,11 +6,17 @@
     Starting bid: {{ listing.starting_bit }}
     <!-- curent price: -->
     {% if user.is_authenticated %}
-    <button type="button">Add to my Watchlist</button>
+        <form action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <input type="submit" value="Add to my Watchlist">
+        
+        </form>
     <form>
         <label for="new_bid">Make a bid:</label> <br>
         <input type="number" id="new_bid" name="new_bid"> <br>
     </form>
+    {% endif %}
 
 
 

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "auctions/layout.html" %}
 
-</body>
-</html>
+{% block body %}
+    <h2>Active Listings</h2>
+    <ul>
+    {% for item in watchlist %}
+        <li>Title: <a href="/listing/{{ item.listing.id }}">{{ item.listing.title }}</a> Description: {{ item.listing.description }} Starting bid: {{ item.listing.starting_bit }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
