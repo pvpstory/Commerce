@@ -68,7 +68,7 @@ def new_listing(request):
         title = request.POST["title"]
         description = request.POST["description"]
         starting_bit = request.POST.get('starting_bit')
-        creator = User.username
+        creator = request.user
 
         new_listing1 = listings.objects.create(
             title=title,
@@ -76,7 +76,7 @@ def new_listing(request):
             starting_bit=starting_bit,
             creator=creator
         )
-
+w
         new_listing1.save()
         return HttpResponseRedirect(reverse("index"))
 

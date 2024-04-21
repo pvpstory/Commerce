@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2>Watchlist</h2>
     <ul>
     {% for item in watchlist %}
         <li>Title: <a href="/listing/{{ item.listing.id }}">{{ item.listing.title }}</a> Description: {{ item.listing.description }} Starting bid: {{ item.listing.starting_bit }}</li>

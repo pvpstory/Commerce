@@ -12,10 +12,19 @@
             <input type="submit" value="Add to my Watchlist">
         
         </form>
-    <form>
-        <label for="new_bid">Make a bid:</label> <br>
-        <input type="number" id="new_bid" name="new_bid"> <br>
-    </form>
+        <form>
+            <label for="new_bid">Make a bid:</label> <br>
+            <input type="number" id="new_bid" name="new_bid"> <br>
+        </form>
+        <form>
+            <label for="comment">Write a comment</label>
+            <input type="text" id="comment" name="comment">
+            <input type="submit" value="write">
+        </form>
+        
+        {% if request.user == listing.creator %}
+            <h1>you are creator</h1>
+            {% endif %}
     {% endif %}
 
 
