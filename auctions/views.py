@@ -85,7 +85,8 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html",{
         "listing": listings.objects.get(id=listing_id),
-        "comments": comments.objects.filter(listing=listing_id)
+        "comments": comments.objects.filter(listing=listing_id),
+        "watchlist": watchlist.objects.filter(user=request.user, listing=listing_id)
     })
 
 def watchlist_view(request):
@@ -99,6 +100,9 @@ def watchlist_view(request):
             )
             new_watchlist.save()
             return HttpResponseRedirect(reverse("index"))
+        if "remove_from_watchlist" in request.POST:
+            listing_id = request.POST["listing_id"]
+            watchlist.objects.filter(user=request.user, listing=listing_id).delete()
 
         if "add_comment" in request.POST:
             listing_id = request.POST["listing_id"]
