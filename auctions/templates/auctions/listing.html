@@ -5,21 +5,27 @@
     Description: {{ listing.description }}
     Starting bid: {{ listing.starting_bit }}
     <!-- curent price: -->
+    {% for comment in comments %}
+    <li>Username: {{ comment.user.username }} Comment: {{ comment.comment }}</li>
+    {% endfor %}
     {% if user.is_authenticated %}
         <form action="{% url 'watchlist' %}" method="post">
             {% csrf_token %}
+
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
-            <input type="submit" value="Add to my Watchlist">
+            <input type="submit" name="add_to_watchlist" value="Add to my Watchlist">
         
         </form>
         <form>
             <label for="new_bid">Make a bid:</label> <br>
             <input type="number" id="new_bid" name="new_bid"> <br>
         </form>
-        <form>
+        <form action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
             <label for="comment">Write a comment</label>
             <input type="text" id="comment" name="comment">
-            <input type="submit" value="write">
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <input type="submit" name="add_comment" value="write">
         </form>
         
         {% if request.user == listing.creator %}

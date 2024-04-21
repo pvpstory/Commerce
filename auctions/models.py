@@ -22,7 +22,7 @@ class watchlist(models.Model):
     def __str__(self):
         return f"{self.listing}"
 class comments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     listing = models.ForeignKey(listings, on_delete=models.CASCADE)
     comment = models.CharField(max_length=500)
 

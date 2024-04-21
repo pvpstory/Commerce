@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
-from auctions.models import listings, watchlist
+from auctions.models import listings, watchlist,comments
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -76,7 +76,6 @@ def new_listing(request):
             starting_bit=starting_bit,
             creator=creator
         )
-w
         new_listing1.save()
         return HttpResponseRedirect(reverse("index"))
 
@@ -85,18 +84,35 @@ w
 def listing(request, listing_id):
 
     return render(request, "auctions/listing.html",{
-        "listing": listings.objects.get(id=listing_id)
+        "listing": listings.objects.get(id=listing_id),
+        "comments": comments.objects.filter(listing=listing_id)
     })
 
 def watchlist_view(request):
     if request.method == "POST":
-        listing_id = request.POST["listing_id"]
+        if "add_to_watchlist" in request.POST:
+            listing_id = request.POST["listing_id"]
 
-        new_watchlist = watchlist.objects.create(
-            user = request.user,
-            listing = listings.objects.get(id=listing_id)
-        )
-        return HttpResponseRedirect(reverse("index"))
+            new_watchlist = watchlist.objects.create(
+                user=request.user,
+                listing=listings.objects.get(id=listing_id)
+            )
+            new_watchlist.save()
+            return HttpResponseRedirect(reverse("index"))
+
+        if "add_comment" in request.POST:
+            listing_id = request.POST["listing_id"]
+            comment = request.POST["comment"]
+
+
+            new_comment = comments.objects.create(
+                creator=request.user,
+                listing=listings.objects.get(id=listing_id),
+                comment=comment
+            )
+            new_comment.save()
+            return HttpResponseRedirect(reverse("index"))
+
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist.objects.filter(user=request.user)
     })
