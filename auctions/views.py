@@ -68,12 +68,14 @@ def new_listing(request):
         title = request.POST["title"]
         description = request.POST["description"]
         starting_bid = request.POST.get('starting_bit')
+        category = request.POST.get('category')
         creator = request.user
 
         new_listing1 = listings.objects.create(
             title=title,
             description=description,
             starting_bit=starting_bid,
+            category=category,
             creator=creator
         )
         new_listing1.save()
@@ -139,6 +141,16 @@ def watchlist_view(request):
 
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist.objects.filter(user=request.user)
+    })
+
+def categories(request):
+    return render(request,"auctions/categorogies.html",{
+        "categories": listings.objects.values('category').distinct()
+    })
+def category(request, category):
+    return render(request,"auctions/category.html",{
+        "listings": listings.objects.filter(category=category),
+        "category": category
     })
 
 

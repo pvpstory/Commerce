@@ -11,9 +11,10 @@ class listings(models.Model):
     description = models.TextField(max_length=500)
     starting_bit = models.IntegerField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.TextField(max_length=100, default="Others")
     def __str__(self):
 
-        return f"{self.title, self.starting_bit, self.description}"
+        return f"{self.title, self.starting_bit, self.description,self.category}"
 
 class watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
