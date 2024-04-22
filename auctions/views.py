@@ -95,7 +95,7 @@ def listing(request, listing_id):
         "listing": listings.objects.get(id=listing_id),
         "comments": comments.objects.filter(listing=listing_id),
         "watchlist": watchlist.objects.filter(user=request.user, listing=listing_id),
-        "bid": bids.objects.filter(listing=listing_id)
+        "bid": bids.objects.get(listing=listing_id)
     })
 
 def watchlist_view(request):
@@ -129,10 +129,11 @@ def watchlist_view(request):
             listing_id = request.POST["listing_id"]
             new_bid = request.POST["new_bid"]
 
-            bid = bids.objects.filter(listing=listing_id)
+            bid = bids.objects.get(listing=listing_id)
             bid.current_bid = new_bid
             bid.current_winner = request.user
             bid.save()
+            return HttpResponseRedirect(reverse("listing",args=(listing_id,)))
 
 
 
