@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
-from auctions.models import listings, watchlist,comments
+from auctions.models import listings, watchlist,comments,bids
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -67,16 +67,24 @@ def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
-        starting_bit = request.POST.get('starting_bit')
+        starting_bid = request.POST.get('starting_bit')
         creator = request.user
 
         new_listing1 = listings.objects.create(
             title=title,
             description=description,
-            starting_bit=starting_bit,
+            starting_bit=starting_bid,
             creator=creator
         )
         new_listing1.save()
+
+        new_bid = bids.objects.create(
+            listing=new_listing1,
+            creator=creator,
+            current_bid=starting_bid
+
+        )
+        new_bid.save()
         return HttpResponseRedirect(reverse("index"))
 
     else:
@@ -86,7 +94,8 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html",{
         "listing": listings.objects.get(id=listing_id),
         "comments": comments.objects.filter(listing=listing_id),
-        "watchlist": watchlist.objects.filter(user=request.user, listing=listing_id)
+        "watchlist": watchlist.objects.filter(user=request.user, listing=listing_id),
+        "bid": bids.objects.filter(listing=listing_id)
     })
 
 def watchlist_view(request):
@@ -116,6 +125,16 @@ def watchlist_view(request):
             )
             new_comment.save()
             return HttpResponseRedirect(reverse("index"))
+        if "make_a_bid" in request.POST:
+            listing_id = request.POST["listing_id"]
+            new_bid = request.POST["new_bid"]
+
+            bid = bids.objects.filter(listing=listing_id)
+            bid.current_bid = new_bid
+            bid.current_winner = request.user
+            bid.save()
+
+
 
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist.objects.filter(user=request.user)

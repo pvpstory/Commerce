@@ -4,6 +4,7 @@
     <h2>{{ listing.title }}</h2>
     Description: {{ listing.description }}
     Starting bid: {{ listing.starting_bit }}
+    Current bid: {{ bid.current_bid }}
     <!-- curent price: -->
     {% for comment in comments %}
     <li>Username: {{ comment.user.username }} Comment: {{ comment.comment }}</li>
@@ -40,8 +41,10 @@
         {% endif %}
         {% endfor %}
         <form>
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <label for="new_bid">Make a bid:</label> <br>
             <input type="number" id="new_bid" name="new_bid"> <br>
+            <input type="submit" name="make_a_bid" value="Make a bid">
         </form>
         <form action="{% url 'watchlist' %}" method="post">
             {% csrf_token %}
