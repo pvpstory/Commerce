@@ -3,15 +3,20 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for listing in listings %}
+        <div class="container-fluid border">
         
-        <li>Title: 
+        <div class="row">
             <a href="/listing/{{ listing.id }}">{{ listing.title }}
-            </a> Description: {{ listing.description }}
-            Starting bid {{ listing.starting_bit }}
+            </a> 
+        </div>
+            <div class="row">Description: {{ listing.description }}</div>
+            <div class="row">Starting bid {{ listing.starting_bit }}</div>
         {% if listing.closed == True %}
             Closed
         {% endif %}
-        </li>
+         
+        </div>  
     {% endfor %}
+
     TODO
 {% endblock %}

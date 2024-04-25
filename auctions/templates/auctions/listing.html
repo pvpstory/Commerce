@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>{{ listing.title }}</h2>
+    <h1>{{ listing.title }}</h1>
     {% if listing.closed == True %}
     <h3>This listing is closed</h3>
     {% if bid.current_winner == request.user %}
@@ -10,69 +10,102 @@
     Description: {{ listing.description }}
     The final bid: {{ bid.current_bid }}
     {% else %}
-    
+    <div class="row">
+    <div class="col">
+    <h3>
     Description: {{ listing.description }}
+    </h3>
+    <h5>
     Starting bid: {{ listing.starting_bit }}
-    Current bid: {{ bid.current_bid }}
+    </h5>
+
+    The highest bid so far: {{ bid.current_bid }}
+
+    
     
     <!-- curent price: -->
-    {% for comment in comments %}
-    <li>Username: {{ comment.user.username }} Comment: {{ comment.comment }}</li>
-    {% endfor %}
+
     {% if user.is_authenticated %}
-        
+
             {% if not watchlist %}
-                   <form action="{% url 'watchlist' %}" method="post">
-                {% csrf_token %}
+                <form action="{% url 'watchlist' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.id }}">
 
-                <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                <input type="submit" name="add_to_watchlist" value="Add to my Watchlist">
-
-            </form>
-                {% endif %}
-            {% for item in watchlist %}
-            {% if listing.id != item.listing.id %}
-                
-            <form action="{% url 'watchlist' %}" method="post">
-                {% csrf_token %}
-
-                <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                <input type="submit" name="add_to_watchlist" value="Add to my Watchlist">
-
-            </form>
-
+                    <input type="submit" name="add_to_watchlist" value="Add to my Watchlist" class="btn btn-primary">
+                </form>
             {% else %}
                 <form action="{% url 'watchlist' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                    <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist">
-
+                    <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist" class="btn btn-primary">
                 </form>
-        {% endif %}
-        {% endfor %}
+                {% endif %}
+
+{#            {% for item in watchlist %}#}
+{#            {% if listing.id != item.listing.id %}#}
+{#                #}
+{#            <form action="{% url 'watchlist' %}" method="post">#}
+{#                {% csrf_token %}#}
+{#                <input type="hidden" name="listing_id" value="{{ listing.id }}">#}
+{#                <input type="submit" name="add_to_watchlist" value="Add to my Watchlist">#}
+{#            </form>#}
+{##}
+{#            {% else %}#}
+{#                <form action="{% url 'watchlist' %}" method="post">#}
+{#                    {% csrf_token %}#}
+{#                    <input type="hidden" name="listing_id" value="{{ listing.id }}">#}
+{#                    <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist">#}
+{#                </form>#}
+{#        {% endif %}#}
+{#        {% endfor %}#}
+
+        {% if listing.creator != request.user %}
         <form action="{% url 'watchlist' %}" method="post"> 
             {% csrf_token %}
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <label for="new_bid">Make a bid:</label> <br>
             <input type="number" id="new_bid" name="new_bid"> <br>
-            <input type="submit" name="make_a_bid" value="Make a bid">
+            <input type="submit" name="make_a_bid" value="Make a bid"class="btn btn-primary">
         </form>
-        <form action="{% url 'watchlist' %}" method="post">
-            {% csrf_token %}
-            <label for="comment">Write a comment</label>
-            <input type="text" id="comment" name="comment">
-            <input type="hidden" name="listing_id" value="{{ listing.id }}">
-            <input type="submit" name="add_comment" value="write">
-        </form>
+            {% endif %}
+
         
         {% if request.user == listing.creator %}
             <form action="{% url 'listing'  listing.id  %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                <input type="submit" name="close_listing" value="Close the listing">
+                <input type="submit" name="close_listing" value="Close the listing"class="btn btn-primary">
 
             </form>
+            </div>
             {% endif %}
+        <div class="col">
+        <form action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
+            <h5>
+            <label for="comment" class="form-label">Write a comment</label>
+                </h5>
+            <input type="text" id="comment" name="comment" class="form-control">
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <input type="submit" name="add_comment" value="write"class="btn btn-primary">
+        </form>
+        <h2>Comments:</h2>
+        {% for comment in comments %}
+            <div class="container">
+            <div class="row">
+                <h5>
+    {{ comment.creator.username }}:
+                </h5>
+            </div>
+            <div class="row">
+         {{ comment.comment }}
+
+                </div>
+            </div>
+            </div>
+            </div>
+    {% endfor %}
     {% endif %}
     {% endif %}
 

@@ -130,7 +130,7 @@ def watchlist_view(request):
                 comment=comment
             )
             new_comment.save()
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("listing",args=(listing_id)))
         if "make_a_bid" in request.POST:
             listing_id = request.POST["listing_id"]
             new_bid = request.POST["new_bid"]
