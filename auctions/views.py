@@ -132,6 +132,8 @@ def watchlist_view(request):
             new_bid = request.POST["new_bid"]
 
             bid = bids.objects.get(listing=listing_id)
+            if bid.current_bid >= int(new_bid):
+                return render(request,"auctions/error.html")
             bid.current_bid = new_bid
             bid.current_winner = request.user
             bid.save()
