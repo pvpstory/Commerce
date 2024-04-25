@@ -92,6 +92,10 @@ def new_listing(request):
     else:
         return render(request, "auctions/new_listing.html")
 def listing(request, listing_id):
+    if request.method == "POST":
+        listing=listings.objects.get(id=listing_id)
+        listing.closed=True
+        listing.save()
 
     return render(request, "auctions/listing.html",{
         "listing": listings.objects.get(id=listing_id),

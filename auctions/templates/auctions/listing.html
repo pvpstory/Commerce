@@ -2,6 +2,15 @@
 
 {% block body %}
     <h2>{{ listing.title }}</h2>
+    {% if listing.closed == True %}
+    <h3>This listing is closed</h3>
+    {% if bid.current_winner == request.user %}
+    <h3>You are the winner</h3>
+    {% endif %}
+    Description: {{ listing.description }}
+    The final bid: {{ bid.current_bid }}
+    {% else %}
+    
     Description: {{ listing.description }}
     Starting bid: {{ listing.starting_bit }}
     Current bid: {{ bid.current_bid }}
@@ -57,8 +66,14 @@
         </form>
         
         {% if request.user == listing.creator %}
-            <h1>you are creator</h1>
+            <form action="{% url 'listing'  listing.id  %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                <input type="submit" name="close_listing" value="Close the listing">
+
+            </form>
             {% endif %}
+    {% endif %}
     {% endif %}
 
 
