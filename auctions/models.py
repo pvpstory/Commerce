@@ -10,6 +10,7 @@ class listings(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField(max_length=500)
     starting_bit = models.IntegerField()
+    image_URL = models.URLField(blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.TextField(max_length=100, default="Others")
     closed = models.BooleanField(default=False)

@@ -70,13 +70,15 @@ def new_listing(request):
         starting_bid = request.POST.get('starting_bit')
         category = request.POST.get('category')
         creator = request.user
+        image_URL= request.POST["image_URL"]
 
         new_listing1 = listings.objects.create(
             title=title,
             description=description,
             starting_bit=starting_bid,
             category=category,
-            creator=creator
+            creator=creator,
+            image_URL=image_URL
         )
         new_listing1.save()
 

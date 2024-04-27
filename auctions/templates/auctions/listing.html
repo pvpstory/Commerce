@@ -10,8 +10,12 @@
     Description: {{ listing.description }}
     The final bid: {{ bid.current_bid }}
     {% else %}
-    <div class="row">
-    <div class="col">
+        {% if listing.image_URL %}
+                <img src={{ listing.image_URL }} alt="Listing Image" style="max-width: 300px;"><br>
+            {% else %}
+                <p>No image</p>
+            {% endif %}
+
     <h3>
     Description: {{ listing.description }}
     </h3>
@@ -92,19 +96,18 @@
         </form>
         <h2>Comments:</h2>
         {% for comment in comments %}
-            <div class="container">
-            <div class="row">
+
+
                 <h5>
     {{ comment.creator.username }}:
                 </h5>
-            </div>
-            <div class="row">
+
+
          {{ comment.comment }}
 
-                </div>
-            </div>
-            </div>
-            </div>
+
+
+
     {% endfor %}
     {% endif %}
     {% endif %}

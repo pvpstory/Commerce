@@ -5,12 +5,16 @@
     {% for listing in listings %}
         <div class="container-fluid border">
         
-        <div class="row">
+            {% if listing.image_URL %}
+                <img src={{ listing.image_URL }} alt="Listing Image" style="max-width: 300px;"><br>
+            {% else %}
+                <p>No image</p>
+            {% endif %}
             <a href="/listing/{{ listing.id }}">{{ listing.title }}
-            </a> 
-        </div>
-            <div class="row">Description: {{ listing.description }}</div>
-            <div class="row">Starting bid {{ listing.starting_bit }}</div>
+            </a> <br>
+
+            Description: {{ listing.description }}<br>
+            Starting bid {{ listing.starting_bit }}<br>
         {% if listing.closed == True %}
             Closed
         {% endif %}
