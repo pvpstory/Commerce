@@ -9,7 +9,8 @@ from auctions.models import listings, watchlist,comments,bids
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": listings.objects.all()
+        "listings": listings.objects.all(),
+        "bids": bids.objects.all()
     })
 
 
@@ -78,7 +79,8 @@ def new_listing(request):
             starting_bit=starting_bid,
             category=category,
             creator=creator,
-            image_URL=image_URL
+            image_URL=image_URL,
+            current_price=starting_bid
         )
         new_listing1.save()
 
@@ -140,8 +142,12 @@ def watchlist_view(request):
             bid = bids.objects.get(listing=listing_id)
             if bid.current_bid >= int(new_bid):
                 return render(request,"auctions/error.html")
+            listing = listings.objects.get(id=listing_id)
+
+            listing.current_price = new_bid
             bid.current_bid = new_bid
             bid.current_winner = request.user
+            listing.save()
             bid.save()
             return HttpResponseRedirect(reverse("listing",args=(listing_id,)))
 
