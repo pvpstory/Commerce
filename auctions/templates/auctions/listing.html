@@ -1,6 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    <div class="container-fluid">
     <h1>{{ listing.title }}</h1>
     {% if listing.closed == True %}
     <h3>This listing is closed</h3>
@@ -10,20 +11,25 @@
     Description: {{ listing.description }}
     The final bid: {{ bid.current_bid }}
     {% else %}
+        <div class="row">
+        <div class="col">
         {% if listing.image_URL %}
-                <img src={{ listing.image_URL }} alt="Listing Image" style="max-width: 300px;"><br>
+                <img src={{ listing.image_URL }} alt="Listing Image" style="max-width: 700px;" ><br>
             {% else %}
                 <p>No image</p>
             {% endif %}
-
-    <h3>
-    Description: {{ listing.description }}
-    </h3>
+        </div>
+    <div class="col-6">
+    <h5>
+   {{ listing.description }}
+    </h5>
+        </div>
+        </div>
     <h5>
     Starting bid: {{ listing.starting_bit }}
     </h5>
 
-    The highest bid so far: {{ bid.current_bid }}
+    The highest bid: {{ bid.current_bid }}
 
     
     
@@ -36,13 +42,15 @@
                     {% csrf_token %}
                     <input type="hidden" name="listing_id" value="{{ listing.id }}">
 
-                    <input type="submit" name="add_to_watchlist" value="Add to my Watchlist" class="btn btn-primary">
+                    <input type="submit" name="add_to_watchlist" value="Add to my Watchlist"
+                           class="btn btn-primary"> <br>
                 </form>
             {% else %}
                 <form action="{% url 'watchlist' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                    <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist" class="btn btn-primary">
+                    <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist"
+                           class="btn btn-primary"> <br>
                 </form>
                 {% endif %}
 
@@ -65,13 +73,17 @@
 {#        {% endfor %}#}
 
         {% if listing.creator != request.user %}
-        <form action="{% url 'watchlist' %}" method="post"> 
+
+        <form action="{% url 'watchlist' %}" method="post">
+        <div class="form-group">
             {% csrf_token %}
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
-            <label for="new_bid">Make a bid:</label> <br>
-            <input type="number" id="new_bid" name="new_bid"> <br>
-            <input type="submit" name="make_a_bid" value="Make a bid"class="btn btn-primary">
+            <br>
+            <input type="number" id="new_bid" name="new_bid" class="form-control w-25"><br>
+            <input type="submit" name="make_a_bid" value="Place bid"class="btn btn-primary">
+             </div>
         </form>
+
             {% endif %}
 
         
@@ -90,7 +102,7 @@
             <h5>
             <label for="comment" class="form-label">Write a comment</label>
                 </h5>
-            <input type="text" id="comment" name="comment" class="form-control">
+            <input type="text" id="comment" name="comment" class="form-control w-75"><br>
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <input type="submit" name="add_comment" value="write"class="btn btn-primary">
         </form>
@@ -113,5 +125,5 @@
     {% endif %}
 
 
-
+</div>
 {% endblock %}
