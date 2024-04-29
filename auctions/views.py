@@ -166,6 +166,10 @@ def category(request, category):
         "listings": listings.objects.filter(category=category),
         "category": category
     })
+def my_listings(request):
+    return render(request,"auctions/my_listings.html", {
+        "listings": listings.objects.filter(creator=request.user)
+    })
 
 
 
