@@ -2,9 +2,31 @@
 
 {% block body %}
     <h2>Watchlist</h2>
-    <ul>
     {% for item in watchlist %}
-        <li>Title: <a href="/listing/{{ item.listing.id }}">{{ item.listing.title }}</a> Description: {{ item.listing.description }} Starting bid: {{ item.listing.starting_bit }}</li>
+        <div class="container-fluid border">
+            <div class="row">
+                <div class="col-4">
+            {% if item.listing.image_URL %}
+
+                <div class="img" >
+                <img src={{ item.listing.image_URL }}  style="max-width: 500px;" height="300"><br>
+                </div>
+            {% else %}
+                <p>No image</p>
+            {% endif %}
+                </div>
+
+             <div class="col-7">
+             <h3><a href="/listing/{{ item.listing.id }}" style="color: black;">{{ item.listing.title }}
+            </a> <br></h3>
+             {{ item.listing.description }}<br>
+                 <b>Current highest bid:</b> ${{ item.listing.current_price }}<br>
+        {% if listing.closed == True %}
+            Closed
+        {% endif %}
+             </div>
+         </div>
+        </div>
     {% endfor %}
-    </ul>
+
 {% endblock %}

@@ -3,13 +3,31 @@
 {% block body %}
     
     <h2>{{ category }}</h2>
-    <ul>
-    {% for item in listings  %}
-    <li>Title: <a href="/listing/{{ item.id }}">{{ item.title }}
-    </a> Description: {{ item.description }}
-        Starting bid: {{ item.starting_bit }}</li>
+    {% for listing in listings %}
+        <div class="container-fluid border">
+            <div class="row">
+                <div class="col-4">
+            {% if listing.image_URL %}
+
+                <div class="img" >
+                <img src={{ listing.image_URL }}  style="max-width: 500px;" height="300"><br>
+                </div>
+            {% else %}
+                <p>No image</p>
+            {% endif %}
+                </div>
+
+             <div class="col-7">
+             <h3><a href="/listing/{{ listing.id }}" style="color: black;">{{ listing.title }}
+            </a> <br></h3>
+             {{ listing.description }}<br>
+                 <b>Current highest bid:</b> ${{ listing.current_price }}<br>
+        {% if listing.closed == True %}
+            Closed
+        {% endif %}
+             </div>
+         </div>
+        </div>
     {% endfor %}
-    
-    </ul>
 
 {% endblock %}

@@ -25,15 +25,11 @@
     </h5>
         </div>
         </div>
-    <h5>
-    Starting bid: {{ listing.starting_bit }}
-    </h5>
 
-    The highest bid: {{ bid.current_bid }}
-
-    
-    
-    <!-- curent price: -->
+        {% if bid.current_winner == request.user %}
+            <b>Your bid is the current bid</b>
+            {% endif %}
+    <h3 >${{ bid.current_bid }}</h3>
 
     {% if user.is_authenticated %}
 
@@ -52,6 +48,7 @@
                     <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist"
                            class="btn btn-primary"> <br>
                 </form>
+
                 {% endif %}
 
 {#            {% for item in watchlist %}#}
@@ -79,7 +76,7 @@
             {% csrf_token %}
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <br>
-            <input type="number" id="new_bid" name="new_bid" class="form-control w-25"><br>
+            <input type="number" id="new_bid" name="new_bid" class="form-control w-25" placeholder="bid"><br>
             <input type="submit" name="make_a_bid" value="Place bid"class="btn btn-primary">
              </div>
         </form>
@@ -96,7 +93,7 @@
             </form>
             </div>
             {% endif %}
-        <div class="col">
+
         <form action="{% url 'watchlist' %}" method="post">
             {% csrf_token %}
             <h5>
@@ -125,5 +122,5 @@
     {% endif %}
 
 
-</div>
+
 {% endblock %}
