@@ -170,6 +170,10 @@ def my_listings(request):
     return render(request,"auctions/my_listings.html", {
         "listings": listings.objects.filter(creator=request.user)
     })
+def closed_listings(request):
+    return render(request, "auctions/closed.html",{
+        "listings": listings.objects.filter(closed=True)
+    })
 
 
 

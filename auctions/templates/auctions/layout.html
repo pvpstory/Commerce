@@ -38,6 +38,10 @@
                     <a class="nav-link" href="{% url 'my_listings'%}">My listings</a>
                 
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'closed' %}"> Recently closed</a>
+                
+                </li>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Log In</a>

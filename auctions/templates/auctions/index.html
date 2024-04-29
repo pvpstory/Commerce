@@ -3,6 +3,7 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for listing in listings %}
+        {% if listing.closed != True %}
         <div class="container-fluid border">
             <div class="row">
                 <div class="col-4">
@@ -27,6 +28,7 @@
              </div>
          </div>
         </div>
+        {% endif %}
     {% endfor %}
 
 

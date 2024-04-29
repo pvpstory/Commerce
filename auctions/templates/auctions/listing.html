@@ -8,8 +8,8 @@
     {% if bid.current_winner == request.user %}
     <h3>You are the winner</h3>
     {% endif %}
-    Description: {{ listing.description }}
-    The final bid: {{ bid.current_bid }}
+
+    The final price: {{ bid.current_bid }}
     {% else %}
         <div class="row">
         <div class="col">
@@ -32,7 +32,7 @@
     <h3 >${{ bid.current_bid }}</h3>
 
     {% if user.is_authenticated %}
-
+            {% if listing.creator != request.user %}
             {% if not watchlist %}
                 <form action="{% url 'watchlist' %}" method="post">
                     {% csrf_token %}
@@ -48,7 +48,7 @@
                     <input type="submit" name="remove_from_watchlist" value="Remove from Watchlist"
                            class="btn btn-primary"> <br>
                 </form>
-
+                {% endif %}
                 {% endif %}
 
 {#            {% for item in watchlist %}#}
