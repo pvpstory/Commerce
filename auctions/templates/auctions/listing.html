@@ -74,10 +74,9 @@
         <form action="{% url 'watchlist' %}" method="post">
         <div class="form-group">
             {% csrf_token %}
-            <input type="hidden" name="listing_id" value="{{ listing.id }}">
-            <br>
+            <input type="hidden" name="listing_id" value="{{ listing.id }}"><br>
             <input type="number" id="new_bid" name="new_bid" class="form-control w-25" placeholder="bid"><br>
-            <input type="submit" name="make_a_bid" value="Place bid"class="btn btn-primary">
+            <input type="submit" name="make_a_bid" value="Place bid" class="btn btn-primary">
              </div>
         </form>
 
@@ -91,33 +90,29 @@
                 <input type="submit" name="close_listing" value="Close the listing"class="btn btn-primary">
 
             </form>
-            </div>
+
             {% endif %}
 
         <form action="{% url 'watchlist' %}" method="post">
             {% csrf_token %}
-            <h5>
-            <label for="comment" class="form-label">Write a comment</label>
-                </h5>
+            <h5> <label for="comment" class="form-label">Write a comment</label> </h5>
             <input type="text" id="comment" name="comment" class="form-control w-75"><br>
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <input type="submit" name="add_comment" value="write"class="btn btn-primary">
         </form>
         <h2>Comments:</h2>
         {% for comment in comments %}
-
-
-                <h5>
+                <b>
     {{ comment.creator.username }}:
-                </h5>
+                </b><br>
+         {{ comment.comment }}<br>
 
-
-         {{ comment.comment }}
 
 
 
 
     {% endfor %}
+         </div>
     {% endif %}
     {% endif %}
 

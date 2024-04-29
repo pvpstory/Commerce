@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
-from auctions.models import listings, watchlist,comments,bids
+
+from auctions.models import listings, watchlist,comments,bids,User
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -100,12 +100,15 @@ def listing(request, listing_id):
         listing=listings.objects.get(id=listing_id)
         listing.closed=True
         listing.save()
-
+    if request.user.is_authenticated:
+        watchlist_ = watchlist.objects.filter(user=request.user, listing=listing_id)
+    else:
+        watchlist_ = []
     return render(request, "auctions/listing.html",{
         "listing": listings.objects.get(id=listing_id),
         "comments": comments.objects.filter(listing=listing_id),
-        "watchlist": watchlist.objects.filter(user=request.user, listing=listing_id),
-        "bid": bids.objects.get(listing=listing_id)
+        "watchlist": watchlist_,
+        "bid": bids.objects.get(listing=listing_id),
     })
 
 def watchlist_view(request):
@@ -134,7 +137,7 @@ def watchlist_view(request):
                 comment=comment
             )
             new_comment.save()
-            return HttpResponseRedirect(reverse("listing",args=(listing_id)))
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         if "make_a_bid" in request.POST:
             listing_id = request.POST["listing_id"]
             new_bid = request.POST["new_bid"]
