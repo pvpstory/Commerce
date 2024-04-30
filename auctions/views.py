@@ -121,11 +121,11 @@ def watchlist_view(request):
                 listing=listings.objects.get(id=listing_id)
             )
             new_watchlist.save()
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         if "remove_from_watchlist" in request.POST:
             listing_id = request.POST["listing_id"]
             watchlist.objects.filter(user=request.user, listing=listing_id).delete()
-
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         if "add_comment" in request.POST:
             listing_id = request.POST["listing_id"]
             comment = request.POST["comment"]
