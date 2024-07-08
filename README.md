@@ -1,5 +1,5 @@
 # Auction platform/E-commerce
-This project is is an e-commerce application developed using Python and Django. The project provides a comprehensive platform for online shopping with features including product listing, bidding (auctions), user authentication, and more
+This project is is an E-commerce application developed using Python and Django. The project provides a comprehensive platform for online shopping with features including product listing, bidding (auctions), user authentication, and more
 
 # Features
 - Product Listings: Browse and search for products.
@@ -22,8 +22,8 @@ Prerequisites
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/pvpstory/commerce.git
-   cd commerce
+   git clone https://github.com/pvpstory/Commerce.git
+   cd Commerce
    ```
 2. Install Dependencies
    ```sh
